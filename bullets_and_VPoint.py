@@ -41,7 +41,7 @@ class VPoint:
         return self.y
 
     def values(self):
-        return (self.x, self.y)
+        return self.x, self.y
 
 
 if __name__ == "__main__":
