@@ -8,13 +8,17 @@ class Ninja:
         self.position = VPoint(x, y)
         self.last_position = VPoint(x+1, y-1)
         self.speed = VPoint(0, 0)
+        self.acc = VPoint(0,0)
         ### hanging mode
         self.is_hanging = False
         self.hanging_point = None
         self.R = None
         self.alfa = None
-        self.speed_alfa = None
-        self.acc_alfa = None
+        self.alfa_speed = None
+        self.alfa_acc = 0.001
+
+    def calculate_linear_speed(self):
+        return self.position - self.last_position
 
     def draw(self, window):
         x = self.position.get_x()
@@ -24,11 +28,18 @@ class Ninja:
         if self.is_hanging:
             pygame.draw.line(window, (255, 0, 0), self.position.values(), self.hanging_point.values())
 
-    def move(self, gravity=VPoint(0,5)):
+    def move(self, gravity=VPoint(0, -0.3)):
         if self.is_hanging:
-            self.alfa += self.acc_alfa
+            print(self.alfa)
+            self.alfa_speed += self.alfa_acc
+            self.alfa += self.alfa_speed
             self.last_position = self.position
             self.position = self.calculate_point_from_angle()
+            if self.position.get_x() < self.hanging_point.get_x() and self.alfa_acc > 0:
+                self.alfa_acc *= -1
+            if self.position.get_x() > self.hanging_point.get_x() and self.alfa_acc < 0:
+                self.alfa_acc *= -1
+
         else:
             self.position += self.speed
             self.speed -= gravity
@@ -41,8 +52,7 @@ class Ninja:
 
     def establish_hang(self, x, y):
         self.hanging_point = VPoint(x, y)
-        self.speed_alfa = VPoint(0, 0)
-        self.acc_alfa
+        self.alfa_speed = VPoint(0, 0)
         self.is_hanging = True
         self.calculate_hang()
 
@@ -52,10 +62,14 @@ class Ninja:
         delta_x = self.position.sub_x(self.hanging_point)
         sinus_alfa = delta_x / self.R
         self.alfa = math.asin(sinus_alfa)
-        self.acc_alfa = self.alfa / 10
+        self.alfa_speed = 0
+        self.alfa_acc = math.pi / 360
+        if self.position.sub_x(self.hanging_point) < 0:
+            self.alfa_acc *= -1
+
 
     def stop_hanging(self):
-        self.acc = VPoint(0,0)
         self.speed = self.position - self.last_position
+        self.is_hanging = False
 
 

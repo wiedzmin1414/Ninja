@@ -28,8 +28,14 @@ class VPoint:
     def length(self):
         return (self.x**2 + self.y**2)**0.5
 
+    def add_x(self, other):
+        return self.x + other.x
+
     def sub_x(self, other):
         return self.x - other.x
+
+    def add_y(self, other):
+        return self.y + other.y
 
     def sub_y(self, other):
         return self.y - other.y
