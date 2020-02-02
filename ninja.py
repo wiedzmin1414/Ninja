@@ -35,9 +35,9 @@ class Ninja:
             self.alfa += self.alfa_speed
             self.last_position = self.position
             self.position = self.calculate_point_from_angle()
-            if self.position.get_x() < self.hanging_point.get_x() and self.alfa_acc > 0:
+            if self.position.get_x() < self.hanging_point.get_x() and self.alfa_acc < 0:
                 self.alfa_acc *= -1
-            if self.position.get_x() > self.hanging_point.get_x() and self.alfa_acc < 0:
+            if self.position.get_x() > self.hanging_point.get_x() and self.alfa_acc > 0:
                 self.alfa_acc *= -1
 
         else:
@@ -62,10 +62,10 @@ class Ninja:
         delta_x = self.position.sub_x(self.hanging_point)
         sinus_alfa = delta_x / self.R
         self.alfa = math.asin(sinus_alfa)
+        if self.position.get_x() < self.hanging_point.get_x:
+            self.alfa = 2
         self.alfa_speed = 0
-        self.alfa_acc = math.pi / 360
-        if self.position.sub_x(self.hanging_point) < 0:
-            self.alfa_acc *= -1
+        self.alfa_acc = 0.001
 
     def stop_hanging(self):
         self.speed = self.position - self.last_position

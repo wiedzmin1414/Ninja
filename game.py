@@ -8,7 +8,7 @@ class Game():
     def __init__(self, max_x, max_y):
         self.max_x = max_x
         self.max_y = max_y
-        self.ninja = ninja.Ninja(50, 50)
+        self.ninja = ninja.Ninja(700, 500)
         # self.testo = pygame.image.load(r'testoxD.jpg')
 
     def play(self, window):
@@ -21,7 +21,7 @@ class Game():
             self.ninja.move()
             window.fill(black)
             self.ninja.draw(window)
-            pygame.time.delay(100)
+            pygame.time.delay(10)
             pygame.display.update()
 
     def mouse(self):

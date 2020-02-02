@@ -49,6 +49,10 @@ class VPoint:
     def values(self):
         return self.x, self.y
 
+    def add_point_on_screen(self, other):
+        self.x -= other.x
+        self.y += other.y
+
 
 if __name__ == "__main__":
     z = VPoint(2, 3)
