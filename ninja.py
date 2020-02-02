@@ -67,7 +67,6 @@ class Ninja:
         if self.position.sub_x(self.hanging_point) < 0:
             self.alfa_acc *= -1
 
-
     def stop_hanging(self):
         self.speed = self.position - self.last_position
         self.is_hanging = False
