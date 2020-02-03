@@ -21,6 +21,9 @@ class VPoint:
 
     def __sub__(self, other):
         return VPoint(self.x - other.x, self.y - other.y)
+    
+    def __rmul__(self, number):
+        return VPoint(number*self.x, number*self.y)
 
     def __str__(self):
         return str([self.x, self.y])
@@ -52,6 +55,7 @@ class VPoint:
     def add_point_on_screen(self, other):
         self.x -= other.x
         self.y += other.y
+        
 
 
 if __name__ == "__main__":

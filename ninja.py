@@ -1,6 +1,7 @@
-from bullets_and_VPoint import *
+from bullets_and_VPoint import VPoint
 import math
 import pygame
+import numpy as np
 
 
 class Ninja:
@@ -13,7 +14,7 @@ class Ninja:
         self.is_hanging = False
         self.hanging_point = None
         self.R = None
-        self.alfa = None
+        self.alfa = 0
         self.alfa_speed = None
         self.alfa_acc = 0.001
 
@@ -34,7 +35,7 @@ class Ninja:
             self.alfa_speed += self.alfa_acc
             self.alfa += self.alfa_speed
             self.last_position = self.position
-            self.position = self.calculate_point_from_angle()
+            self.position = self.calculate_point_from_angle(self.alfa)
             if self.position.get_x() < self.hanging_point.get_x() and self.alfa_acc < 0:
                 self.alfa_acc *= -1
             if self.position.get_x() > self.hanging_point.get_x() and self.alfa_acc > 0:
@@ -44,9 +45,9 @@ class Ninja:
             self.position += self.speed
             self.speed -= gravity
             
-    def calculate_point_from_angle(self):
-        dx = self.R * math.sin(self.alfa)
-        dy = self.R * math.cos(self.alfa)
+    def calculate_point_from_angle(self, alfa):
+        dx = self.R * math.sin(alfa)
+        dy = self.R * math.cos(alfa)
         dp = VPoint(dx, dy)
         return self.hanging_point - dp
 
@@ -59,16 +60,31 @@ class Ninja:
     def calculate_hang(self):
         delta = self.position - self.hanging_point
         self.R = delta.length()
-        delta_x = self.position.sub_x(self.hanging_point)
-        sinus_alfa = delta_x / self.R
-        self.alfa = math.asin(sinus_alfa)
-        if self.position.get_x() < self.hanging_point.get_x:
-            self.alfa = 2
+        #delta_x = self.position.sub_x(self.hanging_point)
+        #sinus_alfa = delta_x / self.R
+        #self.alfa = math.asin(sinus_alfa)
+       # if self.position.get_x() < self.hanging_point.get_x():
+       #     self.alfa = 2
         self.alfa_speed = 0
         self.alfa_acc = 0.001
+        min_error = 100000
+        for alfa in np.arange(0, 2*math.pi, math.pi/256):
+            position = self.calculate_point_from_angle(alfa)
+            error_vector = position - self.position
+            current_error = error_vector.length()
+            if current_error < min_error:
+                best_alfa = alfa
+                min_error = current_error
+                #print(min_error)
+        self.alfa = best_alfa
 
     def stop_hanging(self):
-        self.speed = self.position - self.last_position
+        self.speed = 1.3*(self.position - self.last_position)
+        self.is_hanging = False
+        
+    def reset(self):
+        self.position = VPoint(700,500)
+        self.speed = VPoint(0,0)
         self.is_hanging = False
 
 

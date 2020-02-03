@@ -17,12 +17,16 @@ class Game():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+            #window.fill(black)
+            self.keyboard()
             self.mouse()
             self.ninja.move()
+            #self.ninja.draw(window)
+            pygame.time.delay(20)
             window.fill(black)
             self.ninja.draw(window)
-            pygame.time.delay(10)
             pygame.display.update()
+            self.keyboard()
 
     def mouse(self):
         mouse_buttons = pygame.mouse.get_pressed()
@@ -34,7 +38,11 @@ class Game():
         if not mouse_buttons[0] and self.ninja.is_hanging:
             print("Konczy wisiec")
             self.ninja.stop_hanging()
-
+            
+    def keyboard(self):
+        keys = pygame.key.get_pressed()
+        if keys[K_r]:
+            self.ninja.reset()
 
 
 print("Ladowanko gry: {}".format(__name__))
