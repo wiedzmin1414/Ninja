@@ -86,5 +86,8 @@ class Ninja:
         self.position = VPoint(700,500)
         self.speed = VPoint(0,0)
         self.is_hanging = False
+        
+    def jump(self, distance = VPoint(0,-2)):
+        self.speed += distance
 
 

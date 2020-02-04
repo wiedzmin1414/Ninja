@@ -17,16 +17,13 @@ class Game():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-            #window.fill(black)
             self.keyboard()
             self.mouse()
             self.ninja.move()
-            #self.ninja.draw(window)
-            pygame.time.delay(20)
             window.fill(black)
             self.ninja.draw(window)
             pygame.display.update()
-            self.keyboard()
+            pygame.time.delay(20)
 
     def mouse(self):
         mouse_buttons = pygame.mouse.get_pressed()
@@ -43,6 +40,8 @@ class Game():
         keys = pygame.key.get_pressed()
         if keys[K_r]:
             self.ninja.reset()
+        if keys[K_SPACE]:
+            self.ninja.jump()
 
 
 print("Ladowanko gry: {}".format(__name__))
