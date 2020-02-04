@@ -1,15 +1,4 @@
-class Bullet:
-    def __init__(self, x, y, speed_x, speed_y, colors=(0, 255, 0)):
-        self.x = x
-        self.y = y
-        self.speed_x = speed_x
-        self.speed_y = speed_y
-        self.colors = colors
-
-    def move(self):
-        self.x += self.speed_x
-        self.y += self.speed_y
-
+import pygame
 
 class VPoint:
     def __init__(self, x, y):
@@ -56,10 +45,44 @@ class VPoint:
         self.x -= other.x
         self.y += other.y
         
+        
+class Bullet:
+    def __init__(self, start_position, mouse_position, speed= 2, color= (0, 255, 0)):
+        position_x = start_position.get_x()
+        position_y = start_position.get_y()
+        self.position = VPoint(position_x, position_y)
+        
+        mouse_position = VPoint(mouse_position[0], mouse_position[1])
+        direction = mouse_position -  self.position
+        self.speed = speed / direction.length() * direction 
+        
+        self.color = color
 
+    def move(self, gravity= VPoint(0,0)):
+        self.position += self.speed
+        self.speed -= gravity
+        
+    def draw(self, window, color = None):
+        if not color:
+            color = self.color
+        pygame.draw.rect(window, color, (*self.position.values(), 3, 3))
+        
+    def is_visible(self, min_x, min_y, max_x, max_y):
+        return (self.position.get_x() > min_x and self.position.get_x() < max_x
+            and self.position.get_y() > min_y and self.position.get_y() < max_y)
+   
 
 if __name__ == "__main__":
     z = VPoint(2, 3)
     w = VPoint(10, 20)
     print(w, z, w+z, w-z)
     print(w.sub_x(z), w.sub_y(z), w.length(), w.get_y())
+    print("####### Bullet tests ##########")
+    position = VPoint(2,3)
+    mouse_position = (3,4)
+    bullet = Bullet(position, mouse_position)
+    edges = 0, 0, 800, 1200
+    print(bullet.position, bullet.speed, bullet.is_visible(*edges))
+    bullet.move()
+    print(bullet.position)
+    

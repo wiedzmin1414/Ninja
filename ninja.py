@@ -6,6 +6,7 @@ import numpy as np
 
 class Ninja:
     def __init__(self, x, y):
+        ### normal move (without hanging)
         self.position = VPoint(x, y)
         self.last_position = VPoint(x+1, y-1)
         self.speed = VPoint(0, 0)
