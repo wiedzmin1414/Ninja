@@ -26,6 +26,7 @@ class Game():
             self.keyboard()
             self.mouse()
             self.move_all_object()
+            self.delete_unnedded_items()
             self.generate_next_frame(window)
 
     def mouse(self):
@@ -63,6 +64,9 @@ class Game():
         self.ninja.move()
         for bullet in self.list_of_bullets:
             bullet.move()
+            
+    def delete_unnedded_items(self):
+        self.list_of_bullets = [bullet for bullet in self.list_of_bullets if bullet.is_visible(0, 0, self.max_x, self.max_y)]
             
 
 print("Ladowanko gry: {}".format(__name__))

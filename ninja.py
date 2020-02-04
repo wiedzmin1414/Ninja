@@ -90,5 +90,3 @@ class Ninja:
         
     def jump(self, distance = VPoint(0,-2)):
         self.speed += distance
-
-
