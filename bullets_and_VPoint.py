@@ -45,9 +45,12 @@ class VPoint:
         self.x -= other.x
         self.y += other.y
         
+    def sub_point_on_screen(self, other):
+        self.x += other.x
+        self.y -= other.y
         
 class Bullet:
-    def __init__(self, start_position, mouse_position, speed= 2, color= (0, 255, 0)):
+    def __init__(self, start_position, mouse_position, speed= 4, color= (0, 255, 0)):
         position_x = start_position.get_x()
         position_y = start_position.get_y()
         self.position = VPoint(position_x, position_y)

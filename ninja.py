@@ -2,6 +2,7 @@ from bullets_and_VPoint import VPoint
 import math
 import pygame
 import numpy as np
+import copy
 
 
 class Ninja:
@@ -81,12 +82,26 @@ class Ninja:
 
     def stop_hanging(self):
         self.speed = 1.3*(self.position - self.last_position)
+        self.acc = VPoint(0,0)
         self.is_hanging = False
         
     def reset(self):
         self.position = VPoint(700,500)
         self.speed = VPoint(0,0)
+        self.acc = VPoint(0,0)
         self.is_hanging = False
         
-    def jump(self, distance = VPoint(0,-2)):
+    def jump(self, distance = VPoint(0,-1)):
         self.speed += distance
+        
+class Ninja2(Ninja):
+    def move(self, gravity=VPoint(0, 0.01)):
+        self.position += self.speed
+        self.speed += gravity + self.acc
+        direction_ninja = copy.copy(self.position)
+        if self.is_hanging:
+            direction_ninja = self.hanging_point - self.position # NAWET TEGO NIE DOTYKAJ!!
+            if direction_ninja.length() >= self.R:
+                self.R = direction_ninja.length()
+                self.speed = 1/direction_ninja.length()*direction_ninja
+                

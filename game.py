@@ -9,13 +9,25 @@ class Game():
     def __init__(self, max_x, max_y):
         self.max_x = max_x
         self.max_y = max_y
-        self.ninja = ninja.Ninja(700, 500)
-        # self.testo = pygame.image.load(r'testoxD.jpg')
+        self.ninja = ninja.Ninja2(700, 500) #Ninja2 is available too!
         self.control = { 
             "jump": (K_SPACE, self.ninja.jump),
-            "reset": (K_r, self.ninja.reset)
+            "reset": (K_r, self.ninja.reset),
+            "normal_tribe" : (K_u, self.speed_up),
+            "slow_tribe" : (K_d, self.speed_down),
         }
         self.list_of_bullets = []
+        self.lag = 30
+        
+    def speed_up(self):
+        if self.lag > 20:
+            self.lag -= 10
+            print("Speed up, lag=", self.lag)
+        
+    def speed_down(self):
+        if self.lag < 400:
+            self.lag += 20
+            print("Speed down, lag=", self.lag)
 
     def play(self, window):
         run = True
@@ -58,7 +70,7 @@ class Game():
         for bullet in self.list_of_bullets:
             bullet.draw(window)
         pygame.display.update()
-        pygame.time.delay(20)
+        pygame.time.delay(self.lag)
         
     def move_all_object(self):
         self.ninja.move()
