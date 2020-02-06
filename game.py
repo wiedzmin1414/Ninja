@@ -9,12 +9,15 @@ class Game():
     def __init__(self, max_x, max_y):
         self.max_x = max_x
         self.max_y = max_y
-        self.ninja = ninja.Ninja2(700, 500) #Ninja2 is available too!
+        self.ninja = ninja.Ninja(700, 500) #Ninja2 is available too!
         self.control = { 
-            "jump": (K_SPACE, self.ninja.jump),
-            "reset": (K_r, self.ninja.reset),
-            "normal_tribe" : (K_u, self.speed_up),
-            "slow_tribe" : (K_d, self.speed_down),
+            # "action name" = (key, action, [True, False]available in hanging mode)
+            "jump": (K_w, self.ninja.jump, ),
+            "reset": (K_r, self.ninja.reset,),
+            "speed up" : (K_u, self.speed_up),
+            "speed down" : (K_i, self.speed_down),
+            "shorten link" : (K_w, self.ninja.shorten_link),
+            "extend link" : (K_s, self.ninja.extend_link),
         }
         self.list_of_bullets = []
         self.lag = 30

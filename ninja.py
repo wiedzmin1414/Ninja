@@ -12,10 +12,11 @@ class Ninja:
         self.last_position = VPoint(x+1, y-1)
         self.speed = VPoint(0, 0)
         self.acc = VPoint(0,0)
+        self.jump_available = True 
         ### hanging mode
         self.is_hanging = False
         self.hanging_point = None
-        self.R = None
+        self.R = 150
         self.alfa = 0
         self.alfa_speed = None
         self.alfa_acc = 0.001
@@ -46,6 +47,7 @@ class Ninja:
         else:
             self.position += self.speed
             self.speed -= gravity
+
             
     def calculate_point_from_angle(self, alfa):
         dx = self.R * math.sin(alfa)
@@ -84,6 +86,7 @@ class Ninja:
         self.speed = 1.3*(self.position - self.last_position)
         self.acc = VPoint(0,0)
         self.is_hanging = False
+        self.jump_available = True
         
     def reset(self):
         self.position = VPoint(700,500)
@@ -91,8 +94,23 @@ class Ninja:
         self.acc = VPoint(0,0)
         self.is_hanging = False
         
-    def jump(self, distance = VPoint(0,-1)):
-        self.speed += distance
+    def jump(self, distance = VPoint(0,-10)):
+        if self.jump_available:
+            self.speed.y = 0
+            self.acc.y = 0
+            self.speed += distance
+            self.jump_available = False
+        
+    def shorten_link(self, value = 3):
+            self.R -= value
+            self.R = max(0, self.R)
+            if not self.R:
+                self.alfa_acc = 0
+                self.alfa_speed = 0
+                self.alfa = math.pi
+    
+    def extend_link(self, value = 5):
+        self.R += value
         
 class Ninja2(Ninja):
     def move(self, gravity=VPoint(0, 0.01)):
@@ -104,4 +122,4 @@ class Ninja2(Ninja):
             if direction_ninja.length() >= self.R:
                 self.R = direction_ninja.length()
                 self.speed = 1/direction_ninja.length()*direction_ninja
-                
+    
