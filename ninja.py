@@ -20,6 +20,8 @@ class Ninja:
         self.alfa = 0
         self.alfa_speed = None
         self.alfa_acc = 0.001
+        self.image = pygame.image.load('ninja.png')
+        self.image_hanging = pygame.image.load('ninja_hanging.png')
 
     def calculate_linear_speed(self):
         return self.position - self.last_position
@@ -27,14 +29,18 @@ class Ninja:
     def draw(self, window):
         x = self.position.get_x()
         y = self.position.get_y()
-        print(x, y)
-        pygame.draw.rect(window, (255, 0, 0), (x, y, 10, 10))
+        #print(x, y)
+        #pygame.draw.rect(window, (255, 0, 0), (x, y, 10, 10))
+        if self.is_hanging:
+            window.blit(self.image_hanging, (x-10, y-20))
+        else:
+            window.blit(self.image, (x-10, y-20))
         if self.is_hanging:
             pygame.draw.line(window, (255, 0, 0), self.position.values(), self.hanging_point.values())
 
     def move(self, gravity=VPoint(0, -0.3)):
         if self.is_hanging:
-            print(self.alfa)
+            #print(self.alfa)
             self.alfa_speed += self.alfa_acc
             self.alfa += self.alfa_speed
             self.last_position = self.position
@@ -112,7 +118,7 @@ class Ninja:
     def extend_link(self, value = 5):
         self.R += value
         
-class Ninja2(Ninja):
+class Ninja2(Ninja):  # todo poprawic, dziala slabo, BARDZO!!
     def move(self, gravity=VPoint(0, 0.01)):
         self.position += self.speed
         self.speed += gravity + self.acc

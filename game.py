@@ -23,7 +23,7 @@ class Game():
         self.lag = 30
         
     def speed_up(self):
-        if self.lag > 20:
+        if self.lag > 19:
             self.lag -= 10
             print("Speed up, lag=", self.lag)
         

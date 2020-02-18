@@ -51,7 +51,7 @@ class VPoint:
 
         
 class Bullet:
-    def __init__(self, start_position, mouse_position, speed= 4, color= (0, 255, 0)):
+    def __init__(self, start_position, mouse_position, speed= 12, color= (0, 255, 0)):
         position_x = start_position.get_x()
         position_y = start_position.get_y()
         self.position = VPoint(position_x, position_y)
