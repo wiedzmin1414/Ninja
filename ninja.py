@@ -1,4 +1,5 @@
-from bullets_and_VPoint import VPoint
+from VPoint import VPoint
+from bullets import Bullet, Link_shuriken
 import math
 import pygame
 import numpy as np
@@ -20,8 +21,9 @@ class Ninja:
         self.alfa = 0
         self.alfa_speed = None
         self.alfa_acc = 0.001
-        self.image = pygame.image.load('ninja.png')
-        self.image_hanging = pygame.image.load('ninja_hanging.png')
+        self.image = pygame.image.load('ninja3.png')
+        self.image_hanging = pygame.image.load('ninja3_hanging.png')
+        self.shuriken = None
 
     def calculate_linear_speed(self):
         return self.position - self.last_position
@@ -31,14 +33,14 @@ class Ninja:
         y = self.position.get_y()
         #print(x, y)
         #pygame.draw.rect(window, (255, 0, 0), (x, y, 10, 10))
-        if self.is_hanging:
+        if self.shuriken:
             window.blit(self.image_hanging, (x-10, y-20))
+            pygame.draw.line(window, (255, 0, 0), self.position.values(), self.shuriken.position.values())
+            self.shuriken.draw(window)
         else:
             window.blit(self.image, (x-10, y-20))
-        if self.is_hanging:
-            pygame.draw.line(window, (255, 0, 0), self.position.values(), self.hanging_point.values())
 
-    def move(self, gravity=VPoint(0, -0.3)):
+    def move(self, gravity=VPoint(0, -0.1)):
         if self.is_hanging:
             #print(self.alfa)
             self.alfa_speed += self.alfa_acc
@@ -53,8 +55,10 @@ class Ninja:
         else:
             self.position += self.speed
             self.speed -= gravity
-
             
+        if self.shuriken and not self.is_hanging:
+            self.shuriken.move()
+
     def calculate_point_from_angle(self, alfa):
         dx = self.R * math.sin(alfa)
         dy = self.R * math.cos(alfa)
@@ -89,10 +93,12 @@ class Ninja:
         self.alfa = best_alfa
 
     def stop_hanging(self):
-        self.speed = 1.3*(self.position - self.last_position)
+        print("STOP hanging")
+        self.speed = self.position - self.last_position
         self.acc = VPoint(0,0)
         self.is_hanging = False
         self.jump_available = True
+        self.shuriken = None
         
     def reset(self):
         self.position = VPoint(700,500)
@@ -117,15 +123,4 @@ class Ninja:
     
     def extend_link(self, value = 5):
         self.R += value
-        
-class Ninja2(Ninja):  # todo poprawic, dziala slabo, BARDZO!!
-    def move(self, gravity=VPoint(0, 0.01)):
-        self.position += self.speed
-        self.speed += gravity + self.acc
-        direction_ninja = copy.copy(self.position)
-        if self.is_hanging:
-            direction_ninja = self.hanging_point - self.position # NAWET TEGO NIE DOTYKAJ!!
-            if direction_ninja.length() >= self.R:
-                self.R = direction_ninja.length()
-                self.speed = 1/direction_ninja.length()*direction_ninja
     

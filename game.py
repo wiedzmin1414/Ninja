@@ -2,7 +2,9 @@ import ninja
 import pygame
 from pygame.locals import *
 from colors import *
-from bullets_and_VPoint import Bullet, VPoint
+from VPoint import  VPoint
+from bullets import Bullet, Link_shuriken
+import ceiling
 
 
 class Game():
@@ -20,7 +22,9 @@ class Game():
             "extend link" : (K_s, self.ninja.extend_link),
         }
         self.list_of_bullets = []
-        self.lag = 30
+        self.lag = 10
+        #self.background = pygame.image.load('tlo.jpg')
+        self.ceiling = ceiling.Ceiling(self.max_x, 300, 300, red, 10) 
         
     def speed_up(self):
         if self.lag > 19:
@@ -43,17 +47,38 @@ class Game():
             self.move_all_object()
             self.delete_unnedded_items()
             self.generate_next_frame(window)
+            self.handle_shuriken()
+            
+            
+    def handle_shuriken(self):
+        if self.ninja.shuriken: # is shuriken exist
+            if self.ninja.shuriken.above_ceiling(self.ceiling.height):
+                #print("Shuriken poza zasiegiem!")
+                x = self.ninja.shuriken.position.get_x()
+                if x in self.ceiling:
+                    self.ninja.establish_hang(x, 0)
 
     def mouse(self):
         mouse_buttons = pygame.mouse.get_pressed()
         mouse_position = pygame.mouse.get_pos()
         #print(mouse_buttons)
+        '''
         if mouse_buttons[0] and not self.ninja.is_hanging:
             print("Wisi")
             self.ninja.establish_hang(*mouse_position)
         if not mouse_buttons[0] and self.ninja.is_hanging:
             print("Konczy wisiec")
             self.ninja.stop_hanging()
+        '''
+        if mouse_buttons[0] and not self.ninja.shuriken:
+            print("Leci shuriken")
+            self.ninja.shuriken = Link_shuriken(self.ninja.position, mouse_position)
+        if not mouse_buttons[0] and self.ninja.shuriken:
+            print("Konczy wisiec")
+            if self.ninja.is_hanging:
+                self.ninja.stop_hanging()
+            else:
+                self.ninja.shuriken = None
         if mouse_buttons[2]:
             self.list_of_bullets.append(Bullet(self.ninja.position, mouse_position))
             
@@ -68,10 +93,13 @@ class Game():
                 action()
     
     def generate_next_frame(self, window):
-        window.fill(black)
+        window.fill(blue)
+        self.ceiling.draw(window)
+        #window.blit(self.background, [0,0])
         self.ninja.draw(window)
         for bullet in self.list_of_bullets:
             bullet.draw(window)
+        ## NOW WAIT! ##
         pygame.display.update()
         pygame.time.delay(self.lag)
         
