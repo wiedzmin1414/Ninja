@@ -7,6 +7,7 @@ Created on Wed Feb 26 16:35:25 2020
 from VPoint import VPoint
 import pygame
 
+
 class Bullet:
     def __init__(self, start_position, mouse_position, speed= 12, color= (0, 255, 0)):
         position_x = start_position.get_x()

@@ -61,8 +61,8 @@ class Ceiling():
             if number in block:
                 return True
         return False
-        
+
+
 if __name__ == "__main__":
     w = Ceiling(400, 100, 100, (2,255,4))
     print(w)
-    
