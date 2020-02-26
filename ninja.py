@@ -22,11 +22,28 @@ class Ninja:
         self.alfa_speed = None
         self.alfa_acc = 0.001
         self.image = pygame.image.load('images/ninja/ninja3.png')
+        self.image_throw = pygame.image.load('images/ninja/ninja3_throw.png')
         self.image_hanging = pygame.image.load('images/ninja/ninja3_hanging.png')
+        self.image_hanging_throw = pygame.image.load('images/ninja/ninja3_hanging_throw.png')
         self.shuriken = None
+        self.shot_counter = 0
+        self.shot_pause = 60
 
     def link_hand(self):
-        return self.position + VPoint(4,11)
+        return self.position + VPoint(4, 11)
+
+    def armed_hand(self):
+        return self.position + VPoint(46, 32)
+
+    def shot(self):
+        self.shot_counter = self.shot_pause
+
+    def shot_count(self):
+        if self.shot_counter:
+            self.shot_counter -= 1
+
+    def is_shot_available(self):
+        return not self.shot_counter
 
     def calculate_linear_speed(self):
         return self.position - self.last_position
@@ -37,13 +54,19 @@ class Ninja:
         #print(x, y)
         #pygame.draw.rect(window, (255, 0, 0), (x, y, 10, 10))
         if self.shuriken:
-            window.blit(self.image_hanging, self.position.values())
+            if self.shot_counter > self.shot_pause - 5:
+                window.blit(self.image_hanging_throw, self.position.values())
+            else:
+                window.blit(self.image_hanging, self.position.values())
             pygame.draw.line(window, (255, 0, 0), self.link_hand().values(), self.shuriken.position.values())
             self.shuriken.draw(window, shuriken_image, shuriken_size)
         else:
-            window.blit(self.image, self.position.values())
+            if self.shot_counter > self.shot_pause - 5:
+                window.blit(self.image_throw, self.position.values())
+            else:
+                window.blit(self.image, self.position.values())
 
-    def move(self, gravity=VPoint(0, -0.1)):
+    def move(self, gravity=VPoint(0, -0.3)):
         if self.is_hanging:
             #print(self.alfa)
             self.alfa_speed += self.alfa_acc
@@ -61,6 +84,7 @@ class Ninja:
         #print(self.position.values())
         if self.shuriken and not self.is_hanging:
             self.shuriken.move()
+        self.shot_count()
 
     def calculate_point_from_angle(self, alfa):
         dx = self.R * math.sin(alfa)
@@ -116,7 +140,7 @@ class Ninja:
             self.speed += distance
             self.jump_available = False
         
-    def shorten_link(self, value = 3):
+    def shorten_link(self, value=3):
             self.R -= value
             self.R = max(0, self.R)
             if not self.R:

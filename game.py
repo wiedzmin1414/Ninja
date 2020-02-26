@@ -23,6 +23,8 @@ class Game():
         }
         self.shuriken_image = pygame.image.load('images/shuriken/shuriken3.png')
         self.shuriken_size = 10
+        self.shuriken_image2 = pygame.image.load('images/shuriken/shuriken4.png')
+        self.shuriken_size2 = 10
         self.list_of_bullets = []
         self.lag = 100
         #self.background = pygame.image.load('tlo.jpg')
@@ -82,7 +84,9 @@ class Game():
             else:
                 self.ninja.shuriken = None
         if mouse_buttons[2]:
-            self.list_of_bullets.append(Bullet(self.ninja.position, mouse_position))
+            if self.ninja.is_shot_available():
+                self.ninja.shot()
+                self.list_of_bullets.append(Bullet(self.ninja.armed_hand(), mouse_position))
             
     def keyboard(self):
         pressed_keys = pygame.key.get_pressed()
@@ -100,7 +104,7 @@ class Game():
         #window.blit(self.background, [0,0])
         self.ninja.draw(window, self.shuriken_image, self.shuriken_size)
         for bullet in self.list_of_bullets:
-            bullet.draw(window)
+            bullet.draw(window, self.shuriken_image2, self.shuriken_size2)
         ## NOW WAIT! ##
         pygame.display.update()
         pygame.time.delay(self.lag)

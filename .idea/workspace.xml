@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5b95b62-23d3-4df8-88bd-986252bbaa62" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/7d4a98adb37b11f853e0b0abfe3d1823---bits-pixel-art.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Untitled.xcf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/bullets.py" beforeDir="false" afterPath="$PROJECT_DIR$/bullets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ceiling.py" beforeDir="false" afterPath="$PROJECT_DIR$/ceiling.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/shuriken/shuriken3.xcf" beforeDir="false" afterPath="$PROJECT_DIR$/images/shuriken/shuriken3.xcf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ninja.py" beforeDir="false" afterPath="$PROJECT_DIR$/ninja.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ninja2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ninja3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ninja3.xcf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ninja3_bez_tla.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ninja3_hanging.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ninja_hanging.png" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,8 +30,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ninja.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="39" column="60" lean-forward="true" selection-start-line="39" selection-start-column="60" selection-end-line="39" selection-end-column="60" />
+            <state relative-caret-position="425">
+              <caret line="63" column="34" selection-start-line="63" selection-start-column="34" selection-end-line="63" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -59,26 +50,26 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="22" selection-end-column="9" />
+            <state relative-caret-position="507">
+              <caret line="88" column="74" selection-start-line="88" selection-start-column="74" selection-end-line="88" selection-end-column="74" />
               <folding>
                 <element signature="e#992#1082#0" />
                 <element signature="e#1126#1219#0" />
-                <element signature="e#2027#2967#0" />
+                <element signature="e#1257#1618#0" />
                 <element signature="e#3013#3292#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bullets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+            <state relative-caret-position="333">
+              <caret line="26" column="40" lean-forward="true" selection-start-line="26" selection-start-column="40" selection-end-line="26" selection-end-column="40" />
               <folding>
                 <element signature="e#87#112#0" expanded="true" />
               </folding>
@@ -87,6 +78,14 @@
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>shot_available</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>shot_counter</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="UPDATE_TYPE" value="MERGE" />
@@ -98,9 +97,9 @@
         <option value="$PROJECT_DIR$/bullets_and_VPoint.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/ceiling.py" />
+        <option value="$PROJECT_DIR$/bullets.py" />
         <option value="$PROJECT_DIR$/ninja.py" />
         <option value="$PROJECT_DIR$/game.py" />
-        <option value="$PROJECT_DIR$/bullets.py" />
       </list>
     </option>
   </component>
@@ -355,6 +354,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/colors.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bullets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="26" column="40" lean-forward="true" selection-start-line="26" selection-start-column="40" selection-end-line="26" selection-end-column="40" />
+          <folding>
+            <element signature="e#87#112#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ceiling.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -372,35 +384,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/colors.py">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/ninja.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="63" column="34" selection-start-line="63" selection-start-column="34" selection-end-line="63" selection-end-column="34" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="22" selection-end-column="9" />
+        <state relative-caret-position="507">
+          <caret line="88" column="74" selection-start-line="88" selection-start-column="74" selection-end-line="88" selection-end-column="74" />
           <folding>
             <element signature="e#992#1082#0" />
             <element signature="e#1126#1219#0" />
-            <element signature="e#2027#2967#0" />
+            <element signature="e#1257#1618#0" />
             <element signature="e#3013#3292#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ninja.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="39" column="60" lean-forward="true" selection-start-line="39" selection-start-column="60" selection-end-line="39" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bullets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
-          <folding>
-            <element signature="e#87#112#0" expanded="true" />
           </folding>
         </state>
       </provider>

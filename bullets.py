@@ -24,20 +24,14 @@ class Bullet:
         self.speed -= gravity
         self.angle += self.angle_speed
         
-    def draw(self, window, color = None):
-        if not color:
-            color = self.color
-        pygame.draw.rect(window, color, (*self.position.values(), 3, 3))
+    def draw(self, window, image, size):
+        rotated_image = pygame.transform.rotate(image, self.angle)
+        window.blit(rotated_image, (self.position - VPoint(size, size)).values())
         
     def is_visible(self, min_x, min_y, max_x, max_y):
         return min_x < self.position.get_x() < max_x and min_y < self.position.get_y() < max_y
         
         
 class Link_shuriken(Bullet):
-    def draw(self, window, image, size):
-        rotated_image = pygame.transform.rotate(image, self.angle)
-        window.blit(rotated_image, (self.position - VPoint(size, size)).values())
-        
     def above_ceiling(self, ceiling_height):
         return -ceiling_height <= self.position.get_y() <= ceiling_height
-    
