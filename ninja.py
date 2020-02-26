@@ -55,7 +55,7 @@ class Ninja:
         else:
             self.position += self.speed
             self.speed -= gravity
-            
+        #print(self.position.values())
         if self.shuriken and not self.is_hanging:
             self.shuriken.move()
 
@@ -80,7 +80,7 @@ class Ninja:
        # if self.position.get_x() < self.hanging_point.get_x():
        #     self.alfa = 2
         self.alfa_speed = 0
-        self.alfa_acc = 0.001
+        #self.alfa_acc = 0.001
         min_error = 100000
         for alfa in np.arange(0, 2*math.pi, math.pi/256):
             position = self.calculate_point_from_angle(alfa)

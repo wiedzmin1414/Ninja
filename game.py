@@ -22,7 +22,7 @@ class Game():
             "extend link" : (K_s, self.ninja.extend_link),
         }
         self.list_of_bullets = []
-        self.lag = 10
+        self.lag = 100
         #self.background = pygame.image.load('tlo.jpg')
         self.ceiling = ceiling.Ceiling(self.max_x, 300, 300, red, 10) 
         
@@ -48,14 +48,14 @@ class Game():
             self.delete_unnedded_items()
             self.generate_next_frame(window)
             self.handle_shuriken()
-            
-            
+
     def handle_shuriken(self):
         if self.ninja.shuriken: # is shuriken exist
-            if self.ninja.shuriken.above_ceiling(self.ceiling.height):
+            if self.ninja.shuriken.above_ceiling(self.ceiling.height) and not self.ninja.is_hanging:
                 #print("Shuriken poza zasiegiem!")
                 x = self.ninja.shuriken.position.get_x()
                 if x in self.ceiling:
+                    print("Wisi")
                     self.ninja.establish_hang(x, 0)
 
     def mouse(self):
