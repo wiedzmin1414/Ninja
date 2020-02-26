@@ -15,7 +15,7 @@ class Block():
         self.end = end
         
     def draw(self, window, colour, heigh):
-        pygame.draw.rect(window, colour, (self.start, 0, self.end - self.start, heigh))
+        pygame.draw.rect(window, colour, (self.start, 0, self.end - self.start, heigh), 1)
 
     def return_end(self):
         return self.end

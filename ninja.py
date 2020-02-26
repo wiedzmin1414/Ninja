@@ -21,24 +21,27 @@ class Ninja:
         self.alfa = 0
         self.alfa_speed = None
         self.alfa_acc = 0.001
-        self.image = pygame.image.load('ninja3.png')
-        self.image_hanging = pygame.image.load('ninja3_hanging.png')
+        self.image = pygame.image.load('images/ninja/ninja3.png')
+        self.image_hanging = pygame.image.load('images/ninja/ninja3_hanging.png')
         self.shuriken = None
+
+    def link_hand(self):
+        return self.position + VPoint(4,11)
 
     def calculate_linear_speed(self):
         return self.position - self.last_position
 
-    def draw(self, window):
+    def draw(self, window, shuriken_image, shuriken_size):
         x = self.position.get_x()
         y = self.position.get_y()
         #print(x, y)
         #pygame.draw.rect(window, (255, 0, 0), (x, y, 10, 10))
         if self.shuriken:
-            window.blit(self.image_hanging, (x-10, y-20))
-            pygame.draw.line(window, (255, 0, 0), self.position.values(), self.shuriken.position.values())
-            self.shuriken.draw(window)
+            window.blit(self.image_hanging, self.position.values())
+            pygame.draw.line(window, (255, 0, 0), self.link_hand().values(), self.shuriken.position.values())
+            self.shuriken.draw(window, shuriken_image, shuriken_size)
         else:
-            window.blit(self.image, (x-10, y-20))
+            window.blit(self.image, self.position.values())
 
     def move(self, gravity=VPoint(0, -0.1)):
         if self.is_hanging:
@@ -80,7 +83,7 @@ class Ninja:
        # if self.position.get_x() < self.hanging_point.get_x():
        #     self.alfa = 2
         self.alfa_speed = 0
-        #self.alfa_acc = 0.001
+        self.alfa_acc = 0.001
         min_error = 100000
         for alfa in np.arange(0, 2*math.pi, math.pi/256):
             position = self.calculate_point_from_angle(alfa)
@@ -123,4 +126,3 @@ class Ninja:
     
     def extend_link(self, value = 5):
         self.R += value
-    

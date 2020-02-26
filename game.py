@@ -21,6 +21,8 @@ class Game():
             "shorten link" : (K_w, self.ninja.shorten_link),
             "extend link" : (K_s, self.ninja.extend_link),
         }
+        self.shuriken_image = pygame.image.load('images/shuriken/shuriken3.png')
+        self.shuriken_size = 10
         self.list_of_bullets = []
         self.lag = 100
         #self.background = pygame.image.load('tlo.jpg')
@@ -96,7 +98,7 @@ class Game():
         window.fill(blue)
         self.ceiling.draw(window)
         #window.blit(self.background, [0,0])
-        self.ninja.draw(window)
+        self.ninja.draw(window, self.shuriken_image, self.shuriken_size)
         for bullet in self.list_of_bullets:
             bullet.draw(window)
         ## NOW WAIT! ##
