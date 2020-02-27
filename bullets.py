@@ -9,14 +9,13 @@ import pygame
 
 
 class Bullet:
-    def __init__(self, start_position, mouse_position, speed= 12, color= (0, 255, 0)):
+    def __init__(self, start_position, mouse_position, speed= 12,):
         position_x = start_position.get_x()
         position_y = start_position.get_y()
         self.position = VPoint(position_x, position_y)
         mouse_position = VPoint(mouse_position[0], mouse_position[1])
         direction = mouse_position -  self.position
-        self.speed = speed / direction.length() * direction 
-        self.color = color
+        self.speed = speed / direction.length() * direction
         self.angle = 0
         self.angle_speed = 15
 

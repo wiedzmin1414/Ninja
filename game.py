@@ -1,19 +1,19 @@
 import ninja
 import pygame
 from pygame.locals import *
-from colors import *
+from colors import red, blue, black
 from VPoint import  VPoint
 from bullets import Bullet, Link_shuriken
 import ceiling
 
 
 class Game():
-    def __init__(self, max_x, max_y):
+    def __init__(self, max_x, max_y, lag = 10):
         self.max_x = max_x
         self.max_y = max_y
-        self.ninja = ninja.Ninja(700, 500) #Ninja2 is available too!
+        self.ninja = ninja.Ninja(100, 500) #Ninja2 is available too!
         self.control = { 
-            # "action name" = (key, action, [True, False]available in hanging mode)
+            # "action name" = (key, action)
             "jump": (K_w, self.ninja.jump, ),
             "reset": (K_r, self.ninja.reset,),
             "speed up" : (K_u, self.speed_up),
@@ -26,9 +26,10 @@ class Game():
         self.shuriken_image2 = pygame.image.load('images/shuriken/shuriken4.png')
         self.shuriken_size2 = 10
         self.list_of_bullets = []
-        self.lag = 100
-        #self.background = pygame.image.load('tlo.jpg')
-        self.ceiling = ceiling.Ceiling(self.max_x, 300, 300, red, 10) 
+        self.lag = lag
+        self.score = 0
+        self.ceiling = ceiling.Ceiling(self.max_x, 300, 300, red, 10)
+        self.font = pygame.font.SysFont("comicsansms", 24)
         
     def speed_up(self):
         if self.lag > 19:
@@ -42,6 +43,8 @@ class Game():
 
     def play(self, window):
         run = True
+        self.generate_next_frame(window)
+        self.wait_to_start(window)
         while run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -49,36 +52,30 @@ class Game():
             self.keyboard()
             self.mouse()
             self.move_all_object()
-            self.delete_unnedded_items()
+            #self.delete_unnedded_items()
             self.generate_next_frame(window)
+            self.render_frame()
+            self.delete_unnedded_items()
             self.handle_shuriken()
-
+    
     def handle_shuriken(self):
-        if self.ninja.shuriken: # is shuriken exist
+        if self.ninja.shuriken: # if shuriken exist
             if self.ninja.shuriken.above_ceiling(self.ceiling.height) and not self.ninja.is_hanging:
                 #print("Shuriken poza zasiegiem!")
                 x = self.ninja.shuriken.position.get_x()
+                y = self.ninja.shuriken.position.get_y()
                 if x in self.ceiling:
-                    print("Wisi")
-                    self.ninja.establish_hang(x, 0)
+                    #print("Wisi")
+                    self.ninja.establish_hang(x, y)
 
     def mouse(self):
         mouse_buttons = pygame.mouse.get_pressed()
         mouse_position = pygame.mouse.get_pos()
-        #print(mouse_buttons)
-        '''
-        if mouse_buttons[0] and not self.ninja.is_hanging:
-            print("Wisi")
-            self.ninja.establish_hang(*mouse_position)
-        if not mouse_buttons[0] and self.ninja.is_hanging:
-            print("Konczy wisiec")
-            self.ninja.stop_hanging()
-        '''
         if mouse_buttons[0] and not self.ninja.shuriken:
-            print("Leci shuriken")
-            self.ninja.shuriken = Link_shuriken(self.ninja.position, mouse_position)
+            #print("Leci shuriken")
+            self.ninja.shuriken = Link_shuriken(self.ninja.link_hand(), mouse_position)
         if not mouse_buttons[0] and self.ninja.shuriken:
-            print("Konczy wisiec")
+            #print("Konczy wisiec")
             if self.ninja.is_hanging:
                 self.ninja.stop_hanging()
             else:
@@ -105,9 +102,25 @@ class Game():
         self.ninja.draw(window, self.shuriken_image, self.shuriken_size)
         for bullet in self.list_of_bullets:
             bullet.draw(window, self.shuriken_image2, self.shuriken_size2)
-        ## NOW WAIT! ##
+        score_text = self.font.render("Score: " + str(self.score), True, red)
+        window.blit(score_text, (10, 10))
+    
+    def render_frame(self):
         pygame.display.update()
         pygame.time.delay(self.lag)
+    
+    def wait_to_start(self, window):
+        count = 3
+        while count:
+            self.generate_next_frame(window)
+            count_text = self.font.render(str(count), True, red)
+            window.blit(count_text, (self.max_x // 2, self.max_y // 2))
+        ## NOW WAIT! ##
+            pygame.display.update()
+            pygame.time.delay(1000)
+            count -= 1
+        print("Start")
+
         
     def move_all_object(self):
         self.ninja.move()

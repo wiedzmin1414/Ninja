@@ -26,6 +26,7 @@ class Block():
     def __contains__(self, number):
         return self.start <= number <= self.end
 
+
 class Ceiling():
     def __init__(self, max_x, blank_size, block_size, colour, height):
         self.max_x = max_x #  width of window
@@ -39,9 +40,9 @@ class Ceiling():
     def generate(self):
         position = self.block_list[-1].return_end()
         end = position + 4*self.max_x #  where I want to end generate
-        print(position, end)
+        #print(position, end)
         while position < end:
-            print(position)
+            #print(position)
             actual_blank_size = np.random.randint(self.blank_size) + 100
             actual_block_size = np.random.randint(self.block_size) + 100
             start_block = position + actual_blank_size

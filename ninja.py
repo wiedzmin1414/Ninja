@@ -1,36 +1,36 @@
 from VPoint import VPoint
-from bullets import Bullet, Link_shuriken
+#from bullets import Bullet, Link_shuriken
 import math
 import pygame
 import numpy as np
-import copy
 
 
 class Ninja:
-    def __init__(self, x, y):
+    def __init__(self, x, y, alfa_acc = 0.001, shot_pause = 60, link_hand_delta = VPoint(4,11)):
         ### normal move (without hanging)
         self.position = VPoint(x, y)
-        self.last_position = VPoint(x+1, y-1)
+        self.last_position = None
         self.speed = VPoint(0, 0)
         self.acc = VPoint(0,0)
         self.jump_available = True 
         ### hanging mode
         self.is_hanging = False
         self.hanging_point = None
-        self.R = 150
-        self.alfa = 0
+        self.R = 0
+        self.alfa = None
         self.alfa_speed = None
-        self.alfa_acc = 0.001
+        self.alfa_acc = alfa_acc
         self.image = pygame.image.load('images/ninja/ninja3.png')
         self.image_throw = pygame.image.load('images/ninja/ninja3_throw.png')
         self.image_hanging = pygame.image.load('images/ninja/ninja3_hanging.png')
         self.image_hanging_throw = pygame.image.load('images/ninja/ninja3_hanging_throw.png')
         self.shuriken = None
         self.shot_counter = 0
-        self.shot_pause = 60
+        self.shot_pause = shot_pause
+        self.link_hand_delta = link_hand_delta
 
     def link_hand(self):
-        return self.position + VPoint(4, 11)
+        return self.position + self.link_hand_delta
 
     def armed_hand(self):
         return self.position + VPoint(46, 32)
@@ -49,8 +49,6 @@ class Ninja:
         return self.position - self.last_position
 
     def draw(self, window, shuriken_image, shuriken_size):
-        x = self.position.get_x()
-        y = self.position.get_y()
         #print(x, y)
         #pygame.draw.rect(window, (255, 0, 0), (x, y, 10, 10))
         if self.shuriken:
@@ -120,7 +118,7 @@ class Ninja:
         self.alfa = best_alfa
 
     def stop_hanging(self):
-        print("STOP hanging")
+        #print("STOP hanging")
         self.speed = self.position - self.last_position
         self.acc = VPoint(0,0)
         self.is_hanging = False
@@ -128,10 +126,11 @@ class Ninja:
         self.shuriken = None
         
     def reset(self):
-        self.position = VPoint(700,500)
+        self.position = VPoint(100,500)
         self.speed = VPoint(0,0)
         self.acc = VPoint(0,0)
         self.is_hanging = False
+        self.jump_available = True
         
     def jump(self, distance = VPoint(0,-10)):
         if self.jump_available:
