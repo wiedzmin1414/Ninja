@@ -39,6 +39,9 @@ class VPoint:
     def values(self):
         return self.x, self.y
 
+    def values_to_draw(self, delta_view):
+        return self.x - delta_view, self.y
+
     def add_point_on_screen(self, other):
         self.x -= other.x
         self.y += other.y
@@ -46,4 +49,3 @@ class VPoint:
     def sub_point_on_screen(self, other):
         self.x += other.x
         self.y -= other.y
-    

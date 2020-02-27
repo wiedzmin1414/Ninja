@@ -48,23 +48,23 @@ class Ninja:
     def calculate_linear_speed(self):
         return self.position - self.last_position
 
-    def draw(self, window, shuriken_image, shuriken_size):
+    def draw(self, window, shuriken_image, shuriken_size, delta_view):
         #print(x, y)
         #pygame.draw.rect(window, (255, 0, 0), (x, y, 10, 10))
         if self.shuriken:
             if self.shot_counter > self.shot_pause - 5:
-                window.blit(self.image_hanging_throw, self.position.values())
+                window.blit(self.image_hanging_throw, self.position.values_to_draw(delta_view))
             else:
-                window.blit(self.image_hanging, self.position.values())
-            pygame.draw.line(window, (255, 0, 0), self.link_hand().values(), self.shuriken.position.values())
-            self.shuriken.draw(window, shuriken_image, shuriken_size)
+                window.blit(self.image_hanging, self.position.values_to_draw(delta_view))
+            pygame.draw.line(window, (255, 0, 0), self.link_hand().values_to_draw(delta_view), self.shuriken.position.values_to_draw(delta_view))
+            self.shuriken.draw(window, shuriken_image, shuriken_size, delta_view)
         else:
             if self.shot_counter > self.shot_pause - 5:
-                window.blit(self.image_throw, self.position.values())
+                window.blit(self.image_throw, self.position.values_to_draw(delta_view))
             else:
-                window.blit(self.image, self.position.values())
+                window.blit(self.image, self.position.values_to_draw(delta_view))
 
-    def move(self, gravity=VPoint(0, -0.3)):
+    def move(self, gravity=VPoint(0, -0.1)):
         if self.is_hanging:
             #print(self.alfa)
             self.alfa_speed += self.alfa_acc

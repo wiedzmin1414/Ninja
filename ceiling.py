@@ -13,9 +13,13 @@ class Block():
     def __init__(self, start, end):
         self.start = start
         self.end = end
-        
-    def draw(self, window, colour, heigh):
-        pygame.draw.rect(window, colour, (self.start, 0, self.end - self.start, heigh), 1)
+
+    def is_visible(self, x, x_width):
+        return self.end > x or self.start < x + x_width
+
+    def draw(self, window, colour, heigh, delta_view, x, x_width):
+        if self.is_visible(x, x_width):
+            pygame.draw.rect(window, colour, (self.start - delta_view, 0, self.end - self.start, heigh))
 
     def return_end(self):
         return self.end
@@ -39,21 +43,25 @@ class Ceiling():
         
     def generate(self):
         position = self.block_list[-1].return_end()
-        end = position + 4*self.max_x #  where I want to end generate
+        end = position + 4*self.max_x  # where I want to end generate
         #print(position, end)
         while position < end:
             #print(position)
             actual_blank_size = np.random.randint(self.blank_size) + 100
             actual_block_size = np.random.randint(self.block_size) + 100
             start_block = position + actual_blank_size
-            position = start_block + actual_block_size
-            block = Block(start_block, position)
+            end_block = start_block + actual_block_size
+            block = Block(start_block, end_block)
+            position = end_block
             self.block_list.append(block)
             
-    def draw(self, window):
+    def draw(self, window, delta_view, x, x_width):
         for block in self.block_list:
-            block.draw(window, self.colour, self.height)
-            
+            block.draw(window, self.colour, self.height, delta_view, x, x_width)
+
+    def get_end(self):
+        return self.block_list[-1].return_end()
+
     def __str__(self):
         return str(self.block_list)
 
