@@ -115,18 +115,23 @@ class Game():
                 action()
 
     def score(self):
-        return str(int((self.ninja.position.get_x() - 100) // 10))
+        return str(int(self.ninja.position.get_x() // 10))
 
     def handle_delta_view(self):
         if not self.ninja.is_hanging: #  delta_view change only when ninja is flying
             delta = self.ninja.position.get_x() - self.delta_view
             if delta > 0: #  delta_view will never go back
+                x = int(6*delta/self.max_x)
+                how_many_change = x + x**3/200
+                self.delta_view += how_many_change*self.ninja.speed.get_x()
+                """
                 if delta < self.max_x / 4:
                     self.delta_view += 0.7*self.ninja.speed.get_x()
                 elif delta < self.max_x / 2:
                     self.delta_view += 1.2*self.ninja.speed.get_x()
                 else:
                     self.delta_view += 2*self.ninja.speed.get_x()
+                """
 
     def generate_next_frame(self, window):
         window.fill(blue)
