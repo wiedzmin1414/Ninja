@@ -19,6 +19,8 @@ class Bullet:
         self.angle = 0
         self.angle_speed = 15
         self.have_been_checked = have_been_checked
+        self.size = 5
+        self.exist = True
 
     def move(self, gravity= VPoint(0,0)):
         self.position += self.speed
@@ -31,6 +33,9 @@ class Bullet:
         
     def is_visible(self, min_x, min_y, max_x, max_y):
         return min_x < self.position.get_x() < max_x and min_y < self.position.get_y() < max_y
+
+    def middle(self, shuriken_size=10):
+        return self.position + 0.5*VPoint(shuriken_size, shuriken_size)
         
         
 class Link_shuriken(Bullet):

@@ -6,7 +6,7 @@ import numpy as np
 
 
 class Ninja:
-    def __init__(self, x, y, alfa_acc = 0.001, shot_pause = 60, link_hand_delta = VPoint(4,11)):
+    def __init__(self, x, y, alfa_acc = 0.001, shot_pause=60, link_hand_delta=VPoint(4,11)):
         ### normal move (without hanging)
         self.position = VPoint(x, y)
         self.last_position = None
@@ -24,10 +24,20 @@ class Ninja:
         self.image_throw = pygame.image.load('images/ninja/ninja3_throw.png')
         self.image_hanging = pygame.image.load('images/ninja/ninja3_hanging.png')
         self.image_hanging_throw = pygame.image.load('images/ninja/ninja3_hanging_throw.png')
+        self.image_size = VPoint(*self.image.get_rect().size)
         self.shuriken = None
         self.shot_counter = 0
         self.shot_pause = shot_pause
         self.link_hand_delta = link_hand_delta
+        self.size = 27
+
+    def is_hit(self, item):
+        distance = self.middle() - item.middle()
+        max_dist = self.size + item.size
+        return distance.length() < max_dist
+
+    def middle(self):
+        return self.position + 0.5*self.image_size
 
     def link_hand(self):
         return self.position + self.link_hand_delta

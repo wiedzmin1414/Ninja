@@ -5,7 +5,8 @@ from colors import red, blue, black
 from VPoint import  VPoint
 from bullets import Bullet, Link_shuriken
 import ceiling
-import numpy as np
+from enemy import Enemy
+import random
 
 
 class Game():
@@ -33,6 +34,12 @@ class Game():
         self.font = pygame.font.SysFont("comicsansms", 24)
         self.big_font = pygame.font.SysFont("comicsansms", 100)
         self.delta_view = 0
+        self.list_of_enemies = []
+
+    def add_enemy(self):
+        x = self.delta_view + self.max_x
+        y = random.uniform(0, self.max_y)
+        self.list_of_enemies.append(Enemy(x, y, fly_to_point=self.ninja.middle()))
         
     def speed_up(self):
         if self.lag > 19:
@@ -48,7 +55,8 @@ class Game():
         self.generate_next_frame(window)
         self.wait_to_start(window)
         while self.run:
-            self.still_play()
+            if not self.is_still_play():
+                self.run = False
             self.keyboard()
             self.mouse()
             self.move_all_object()
@@ -59,18 +67,35 @@ class Game():
             self.handle_shuriken()
             self.handle_delta_view()
             self.generate_ceiling()
+            if random.random() > 0.99:
+                self.add_enemy()
+            self.calculate_hits()
+        self.game_over()
 
-    def still_play(self):
+    def is_still_play(self):
         for event in pygame.event.get():  # press ESC
             if event.type == pygame.QUIT:
-                self.run = False
+                return False
         if self.ninja.position.get_y() > self.max_y:
-            self.run = False
-
+            return False
+        for enemy in self.list_of_enemies:
+            if self.ninja.is_hit(enemy):
+                return False
+        return True
+        '''
         if not self.run:
             self.game_over()
+        '''
+
+    def calculate_hits(self):
+        for bullet in self.list_of_bullets:
+            for enemy in self.list_of_enemies:
+                if enemy.is_hit(bullet):
+                    enemy.exist = False
+                    bullet.exist = False
 
     def game_over(self):
+        print("Your score:", self.delta_view)
         pygame.time.delay(1000)
 
     def generate_ceiling(self):
@@ -123,7 +148,7 @@ class Game():
             if delta > 0: #  delta_view will never go back
                 x = int(6*delta/self.max_x)
                 how_many_change = x + x**3/200
-                self.delta_view += how_many_change*self.ninja.speed.get_x()
+                self.delta_view += max(how_many_change*self.ninja.speed.get_x(), 0)
                 """
                 if delta < self.max_x / 4:
                     self.delta_view += 0.7*self.ninja.speed.get_x()
@@ -140,6 +165,8 @@ class Game():
         self.ninja.draw(window, self.shuriken_image, self.shuriken_size, self.delta_view)
         for bullet in self.list_of_bullets:
             bullet.draw(window, self.shuriken_image2, self.shuriken_size2, self.delta_view)
+        for enemy in self.list_of_enemies:
+            enemy.draw(window, self.delta_view)
         score_text = self.font.render("Score: " + self.score(), True, red)
         window.blit(score_text, (10, 10))
     
@@ -163,10 +190,14 @@ class Game():
         self.ninja.move()
         for bullet in self.list_of_bullets:
             bullet.move()
+        for enemy in self.list_of_enemies:
+            enemy.move()
 
     def delete_unnedded_items(self):
         self.list_of_bullets = [bullet for bullet in self.list_of_bullets
-                                if bullet.is_visible(self.delta_view, 0, self.max_x + self.delta_view, self.max_y)]
+                                if bullet.is_visible(self.delta_view, 0, self.max_x + self.delta_view, self.max_y) and bullet.exist]
+        self.list_of_enemies = [enemy for enemy in self.list_of_enemies
+                                if enemy.is_visible(self.delta_view, 0, 2*self.max_x + self.delta_view, self.max_y) and enemy.exist]
             
 
 print("Ladowanko gry: {}".format(__name__))
