@@ -63,13 +63,13 @@ class Game():
             #self.delete_unnedded_items()
             self.generate_next_frame(window)
             self.render_frame()
+            self.calculate_hits()
             self.delete_unnedded_items()
             self.handle_shuriken()
             self.handle_delta_view()
             self.generate_ceiling()
             if random.random() > 0.99:
                 self.add_enemy()
-            self.calculate_hits()
         self.game_over()
 
     def is_still_play(self):

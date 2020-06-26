@@ -6,7 +6,7 @@ import numpy as np
 
 
 class Ninja:
-    def __init__(self, x, y, alfa_acc = 0.001, shot_pause=60, link_hand_delta=VPoint(4,11)):
+    def __init__(self, x, y, alfa_acc = 0.001, shot_pause=40, link_hand_delta=VPoint(4,11)):
         ### normal move (without hanging)
         self.position = VPoint(x, y)
         self.last_position = None
