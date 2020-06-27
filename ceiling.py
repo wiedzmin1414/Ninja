@@ -17,9 +17,9 @@ class Block():
     def is_visible(self, x, x_width):
         return self.end > x or self.start < x + x_width
 
-    def draw(self, window, colour, heigh, delta_view, x, x_width):
+    def draw(self, window, colour, height, delta_view, x, x_width):
         if self.is_visible(x, x_width):
-            pygame.draw.rect(window, colour, (self.start - delta_view, 0, self.end - self.start, heigh))
+            pygame.draw.rect(window, colour, (self.start - delta_view, 0, self.end - self.start, height))
 
     def return_end(self):
         return self.end

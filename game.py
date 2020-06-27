@@ -10,7 +10,7 @@ import random
 
 
 class Game():
-    def __init__(self, max_x, max_y,  lag=10):
+    def __init__(self, max_x, max_y,  lag=10, prob_enemy = 0.99):
         self.max_x = max_x
         self.max_y = max_y
         self.ninja = ninja.Ninja(0, 100)
@@ -35,6 +35,7 @@ class Game():
         self.big_font = pygame.font.SysFont("comicsansms", 100)
         self.delta_view = 0
         self.list_of_enemies = []
+        self.prob_enemy = prob_enemy
 
     def add_enemy(self):
         x = self.delta_view + self.max_x
@@ -68,9 +69,9 @@ class Game():
             self.handle_shuriken()
             self.handle_delta_view()
             self.generate_ceiling()
-            if random.random() > 0.99:
+            if random.random() > self.prob_enemy:
                 self.add_enemy()
-        self.game_over()
+        self.game_over(window)
 
     def is_still_play(self):
         for event in pygame.event.get():  # press ESC
@@ -82,10 +83,6 @@ class Game():
             if self.ninja.is_hit(enemy):
                 return False
         return True
-        '''
-        if not self.run:
-            self.game_over()
-        '''
 
     def calculate_hits(self):
         for bullet in self.list_of_bullets:
@@ -94,8 +91,12 @@ class Game():
                     enemy.exist = False
                     bullet.exist = False
 
-    def game_over(self):
-        print("Your score:", self.delta_view)
+    def game_over(self, window):
+        print("Your score:", self.score())
+        font = pygame.font.SysFont(None,100)
+        text = font.render("Score: " + self.score(), True, red)
+        window.blit(text, (self.max_x//2-50, self.max_y//2-50))
+        self.render_frame()
         pygame.time.delay(1000)
 
     def generate_ceiling(self):
@@ -143,20 +144,13 @@ class Game():
         return str(int(self.ninja.position.get_x() // 10))
 
     def handle_delta_view(self):
-        if not self.ninja.is_hanging: #  delta_view change only when ninja is flying
-            delta = self.ninja.position.get_x() - self.delta_view
-            if delta > 0: #  delta_view will never go back
-                x = int(6*delta/self.max_x)
-                how_many_change = x + x**3/200
-                self.delta_view += max(how_many_change*self.ninja.speed.get_x(), 0)
-                """
-                if delta < self.max_x / 4:
-                    self.delta_view += 0.7*self.ninja.speed.get_x()
-                elif delta < self.max_x / 2:
-                    self.delta_view += 1.2*self.ninja.speed.get_x()
-                else:
-                    self.delta_view += 2*self.ninja.speed.get_x()
-                """
+        delta = self.ninja.position.get_x() - self.delta_view
+        if delta > 0:
+            x = 6*delta/self.max_x
+            how_many_change = x**2
+            self.delta_view += how_many_change*self.ninja.get_speed_x()  # max(how_many_change*self.ninja.get_speed_x(), 0)
+        else:
+            self.delta_view = self.ninja.position.get_x()
 
     def generate_next_frame(self, window):
         window.fill(blue)

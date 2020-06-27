@@ -9,7 +9,7 @@ class Ninja:
     def __init__(self, x, y, alfa_acc = 0.001, shot_pause=40, link_hand_delta=VPoint(4,11)):
         ### normal move (without hanging)
         self.position = VPoint(x, y)
-        self.last_position = None
+        self.last_position = VPoint(x, y)
         self.speed = VPoint(0, 0)
         self.acc = VPoint(0,0)
         self.jump_available = True 
@@ -30,6 +30,11 @@ class Ninja:
         self.shot_pause = shot_pause
         self.link_hand_delta = link_hand_delta
         self.size = 27
+
+    def get_speed_x(self):
+        if self.is_hanging:
+            return self.position.get_x() - self.last_position.get_x()
+        return self.speed.get_x()
 
     def is_hit(self, item):
         distance = self.middle() - item.middle()
@@ -75,11 +80,12 @@ class Ninja:
                 window.blit(self.image, self.position.values_to_draw(delta_view))
 
     def move(self, gravity=VPoint(0, -0.1)):
+        self.last_position = self.position
         if self.is_hanging:
             #print(self.alfa)
             self.alfa_speed += self.alfa_acc
             self.alfa += self.alfa_speed
-            self.last_position = self.position
+           # self.last_position = self.position
             self.position = self.calculate_point_from_angle(self.alfa)
             if self.position.get_x() < self.hanging_point.get_x() and self.alfa_acc < 0:
                 self.alfa_acc *= -1
