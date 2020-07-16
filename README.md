@@ -1,11 +1,11 @@
-#Purpose
+## Purpose
 Game written in python. I  have written it to learn object oriented programming.
 
-#How to run
+## How to run
 
 You need to have Python 3.6 or newer with pygame liberary. To start game just run main.py
 
-#How to play
+## How to play
 
 You play ninja and you try to not fall down.
 Press and hold left mouse button to throw shuriken with a rope. Aim to red  Release this button to cut the rope.
