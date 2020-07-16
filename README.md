@@ -7,7 +7,7 @@ You need to have Python 3.6 or newer with pygame liberary. To start game just ru
 
 ## How to play
 
-You play ninja and you try to not fall down.
+You play as a ninja and you try to not fall down.
 
 Press and hold left mouse button to throw shuriken with a rope. Aim to red  Release this button to cut the rope.
 
